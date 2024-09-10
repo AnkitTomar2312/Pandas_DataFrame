@@ -393,3 +393,47 @@ print(df)
 
 #Joining, Merging & Concatenation of DataFrames
 
+'''
+merge(): Joins DataFrames based on a common column or index.
+Types: inner, left, right, outer.
+concat(): Concatenates DataFrames along rows or columns.
+axis=0 for rows, axis=1 for columns.
+join(): Joins DataFrames on their indices.
+Types: inner, left, right, outer.
+append(): Adds rows from another DataFrame or Series to the end of the DataFrame.
+- **`ignore_index`**: Creates a new sequential index for the resulting DataFrame, ignoring the original indices.
+- **`verify_integrity`**: Ensures no duplicate indices in the resulting DataFrame; raises an error if duplicates are found.
+- **`sort`**: Sorts the columns alphabetically before appending or concatenating.
+'''
+
+import pandas as pd
+df1 = pd.DataFrame({'Key': ['A', 'B', 'C', 'D'], 'Value1': [1, 2, 3, 4]})
+df2 = pd.DataFrame({'Key': ['B', 'D', 'E', 'F'], 'Value2': [5, 6, 7, 8]})
+
+# 1. Using merge() with different join types
+inner_join = pd.merge(df1, df2, on='Key', how='inner')
+left_join = pd.merge(df1, df2, on='Key', how='left')
+right_join = pd.merge(df1, df2, on='Key', how='right')
+outer_join = pd.merge(df1, df2, on='Key', how='outer')
+
+# 2. Using concat() to concatenate along rows and columns
+concat_rows = pd.concat([df1, df2], axis=0, ignore_index=True)
+concat_columns = pd.concat([df1, df2], axis=1)
+
+# 3. Using join() to join on indices
+df1_indexed = df1.set_index('Key')
+df2_indexed = df2.set_index('Key')
+index_join = df1_indexed.join(df2_indexed, how='inner')
+
+# 4. Using append() to add rows to the DataFrame
+appended_df = df1._append(df2,verify_integrity=True, ignore_index=True, sort=True)
+
+# Print results
+print("Inner Join:\n", inner_join)
+print("\nLeft Join:\n", left_join)
+print("\nRight Join:\n", right_join)
+print("\nOuter Join:\n", outer_join)
+print("\nConcatenated Rows:\n", concat_rows)
+print("\nConcatenated Columns:\n", concat_columns)
+print("\nIndex Join:\n", index_join)
+print("\nAppended DataFrame:\n", appended_df)
